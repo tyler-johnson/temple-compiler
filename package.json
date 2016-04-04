@@ -7,6 +7,9 @@
     "url": "https://github.com/tyler-johnson/temple-compiler.git"
   },
   "main": "index.js",
+  "browser": {
+    "./src/compile-file.js": false
+  },
   "scripts": {
     "lint": "eslint src/ test/",
     "build": "make clean && make",
@@ -15,8 +18,10 @@
     "autorelease": "autorelease pre && npm publish && autorelease post"
   },
   "dependencies": {
+    "@mrgalaxy/rollup-plugin-inject": "^2.0.0",
     "jsep": "^0.3.0",
     "lodash": "^4.7.0",
+    "rollup": "^0.25.8",
     "source-map": "^0.5.3",
     "templejs-runtime": "^1.0.0"
   },
