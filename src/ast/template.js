@@ -7,8 +7,6 @@ export default class Template extends Node {
 		let safename = JSON.stringify(this.name);
 		let safetype = this.type ? JSON.stringify(this.type) : null;
 
-		header(data, "var Template = {};\n");
-
 		this.write(`Template[${safename}] = Temple.create(${safename}, ${safetype ? safetype + ", " : ""}function(scope, key) {`).indent();
 		data = addKey(data, { value: "key" });
 		this.push(compileGroup(this.children, data));

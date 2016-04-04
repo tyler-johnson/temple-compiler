@@ -10,7 +10,7 @@ if (typeof window !== "undefined" && typeof window.btoa === "function") {
 	return new Buffer(str, "utf-8").toString("base64");
 };
 
-function srcToString(smf) {
+export function srcToString(smf) {
 	return this.code + "\n\n//# " + smfurl +
 		(typeof smf === "string" ? smf :
 			datauri + toBase64(this.map.toString()));
