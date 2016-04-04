@@ -1,6 +1,4 @@
 node_modules/
 /index.js
 /test.js
-/cli.js
 dist/
-

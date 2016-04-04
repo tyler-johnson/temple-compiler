@@ -1,16 +1,11 @@
 BIN = ./node_modules/.bin
 SRC = $(wildcard src/* src/*/*)
-TEST = $(wildcard test/* test/*/*)
+TEST = $(wildcard test/* test/*/* test/*/*/*)
 
-build: index.js cli.js dist/browser.js
+build: index.js dist/browser.min.js
 
 index.js: src/index.js $(SRC)
 	$(BIN)/rollup $< -c build/rollup.node.js > $@
-
-cli.js: src/cli.js $(SRC)
-	echo "#!/usr/bin/env node" > $@
-	$(BIN)/rollup $< -c build/rollup.node.js >> $@
-	chmod +x $@
 
 dist:
 	mkdir -p $@
@@ -18,13 +13,24 @@ dist:
 dist/browser.js: src/index.js $(SRC) dist
 	$(BIN)/rollup $< -c build/rollup.browser.js > $@
 
-test.js: test/index.js $(TEST)
-	$(BIN)/rollup $< -c build/rollup.node.js > $@
+dist/browser.min.js: dist/browser.js
+	$(BIN)/uglifyjs $< -mc warnings=false > $@
 
-test: test.js
+test.js: test/index.js $(TEST)
+	$(BIN)/rollup $< -c build/rollup.test.js > $@
+
+test: test-node test-browser test-full
+
+test-node: test.js index.js
 	node $<
 
-clean:
-	rm -rf index.js test.js cli.js dist/
+test-browser: test.js index.js
+	$(BIN)/browserify $< --debug | $(BIN)/tape-run
 
-.PHONY: build clean test
+test-full: test.js dist/browser.js
+	$(BIN)/browserify $< -r ./dist/browser.js:./ --debug | $(BIN)/tape-run
+
+clean:
+	rm -rf index.js test.js dist/
+
+.PHONY: build clean test test-node test-browser test-full

@@ -1,10 +1,12 @@
 import babel from "rollup-plugin-babel";
 import json from "rollup-plugin-json";
+import pegjs from "./pegjs.js";
 
 export default {
 	onwarn: ()=>{},
 	format: "cjs",
 	plugins: [
+		pegjs(),
 		json(),
 		babel({
 			exclude: [ "node_modules/**" ],
