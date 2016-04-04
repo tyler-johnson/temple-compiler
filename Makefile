@@ -2,7 +2,7 @@ BIN = ./node_modules/.bin
 SRC = $(wildcard src/* src/*/*)
 TEST = $(wildcard test/* test/*/* test/*/*/*)
 
-build: index.js dist/browser.js
+build: index.js dist/browser.min.js
 
 index.js: src/index.js $(SRC)
 	$(BIN)/rollup $< -c build/rollup.node.js > $@
@@ -12,6 +12,9 @@ dist:
 
 dist/browser.js: src/index.js $(SRC) dist
 	$(BIN)/rollup $< -c build/rollup.browser.js > $@
+
+dist/browser.min.js: dist/browser.js
+	$(BIN)/uglifyjs $< -mc warnings=false > $@
 
 test.js: test/index.js $(TEST)
 	$(BIN)/rollup $< -c build/rollup.test.js > $@

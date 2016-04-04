@@ -6,19 +6,29 @@ import builtins from "rollup-plugin-node-builtins";
 import nodeGlobals from "rollup-plugin-node-globals";
 import pegjs from "./pegjs.js";
 
+const _resolve = resolve({
+	jsnext: false,
+	main: true,
+	browser: true,
+	preferBuiltins: true
+});
+
 export default {
 	onwarn: ()=>{},
 	format: "umd",
-	moduleName: "temple_compiler",
+	moduleName: "Temple",
+	globals: {
+		"templejs-runtime": "Temple"
+	},
 	plugins: [
 		builtins(),
 
-		resolve({
-			jsnext: false,
-			main: true,
-			browser: true,
-			preferBuiltins: true
-		}),
+		{
+			resolveId: function(id) {
+				if (id === "templejs-runtime") return false;
+				return _resolve.resolveId.apply(null, arguments);
+			}
+		},
 
 		pegjs(),
 
