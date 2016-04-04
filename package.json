@@ -7,7 +7,6 @@
     "url": "https://github.com/tyler-johnson/temple-compiler.git"
   },
   "main": "index.js",
-  "bin": "cli.js",
   "scripts": {
     "lint": "eslint src/ test/",
     "build": "make clean && make",
@@ -18,7 +17,6 @@
   "dependencies": {
     "jsep": "^0.3.0",
     "lodash": "^4.7.0",
-    "minimist": "^1.2.0",
     "source-map": "^0.5.3",
     "templejs-runtime": "^1.0.0"
   },
