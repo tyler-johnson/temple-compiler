@@ -1,5 +1,5 @@
 import Node from "./node";
-import {compileGroup,addKey,header} from "./utils";
+import {compileGroup,addKey} from "./utils";
 
 export default class Template extends Node {
 	compile(data) {
