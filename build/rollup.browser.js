@@ -4,6 +4,7 @@ import resolve from "rollup-plugin-node-resolve";
 import json from "rollup-plugin-json";
 import builtins from "rollup-plugin-node-builtins";
 import nodeGlobals from "rollup-plugin-node-globals";
+import pegjs from "./pegjs.js";
 
 export default {
 	onwarn: ()=>{},
@@ -19,6 +20,8 @@ export default {
 			preferBuiltins: true
 		}),
 
+		pegjs(),
+
 		json(),
 
 		commonjs({
@@ -31,7 +34,10 @@ export default {
 			exclude: [ "node_modules/**" ],
 			include: [ "src/**" ],
 			presets: [ "es2015-rollup" ],
-			plugins: [ "transform-object-rest-spread" ]
+			plugins: [
+				"transform-object-rest-spread",
+				"lodash"
+			]
 		}),
 
 		nodeGlobals()

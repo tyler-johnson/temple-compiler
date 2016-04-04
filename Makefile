@@ -1,6 +1,6 @@
 BIN = ./node_modules/.bin
 SRC = $(wildcard src/* src/*/*)
-TEST = $(wildcard test/* test/*/*)
+TEST = $(wildcard test/* test/*/* test/*/*/*)
 
 build: index.js cli.js dist/browser.js
 
@@ -18,13 +18,18 @@ dist:
 dist/browser.js: src/index.js $(SRC) dist
 	$(BIN)/rollup $< -c build/rollup.browser.js > $@
 
-test.js: test/index.js $(TEST)
-	$(BIN)/rollup $< -c build/rollup.node.js > $@
+test.js: test/index.js index.js $(TEST)
+	$(BIN)/rollup $< -c build/rollup.test.js > $@
 
-test: test.js
+test: test-node test-browser
+
+test-node: test.js
 	node $<
+
+test-browser: test.js
+	$(BIN)/browserify $< --debug | $(BIN)/tape-run
 
 clean:
 	rm -rf index.js test.js cli.js dist/
 
-.PHONY: build clean test
+.PHONY: build clean test test-node test-browser

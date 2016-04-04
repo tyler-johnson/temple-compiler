@@ -26,7 +26,7 @@ if (argv.version) {
 
 if (argv.config) {
 	try {
-		merge(argv, require(resolve(argv.config)));
+		Object.assign(argv, require(resolve(argv.config)));
 	} catch(e) {
 		if (!/Cannot find module/.test(e.message)) throw e;
 	}
@@ -37,4 +37,8 @@ function panic(e) {
 	process.exit(1);
 }
 
-myApp();
+try {
+	myApp();
+} catch(e) {
+	panic(e);
+}
