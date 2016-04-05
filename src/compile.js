@@ -11,9 +11,9 @@ if (typeof window !== "undefined" && typeof window.btoa === "function") {
 };
 
 export function srcToString(smf) {
-	return this.code + "\n\n//# " + smfurl +
+	return this.code + (!smf ? "" : "\n\n//# " + smfurl +
 		(typeof smf === "string" ? smf :
-			datauri + toBase64(this.map.toString()));
+			datauri + toBase64(this.map.toString())));
 }
 
 export default function compile(src, options={}) {
