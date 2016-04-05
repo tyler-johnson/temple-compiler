@@ -1,5 +1,6 @@
 {
   "name": "templejs-compiler",
+  "version": "0.0.0-edge",
   "description": "Parses the Temple language and compiles to JavaScript.",
   "author": "Tyler Johnson <tyler@tylerjohnson.me>",
   "repository": {
