@@ -47,6 +47,7 @@ export default {
 								let options = JSON.stringify(res[2]);
 
 								out += `\tconst result = Temple.compile(${input}, ${options});\n`;
+								// out += `\tconsole.log(result.code);\n`;
 								out += `\tt.equals(result.code, ${output}, "correct output for ${dir}");\n`;
 								out += "});\n";
 
