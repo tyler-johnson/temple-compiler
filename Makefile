@@ -30,7 +30,7 @@ test: test-node test-browser test-full
 test-node: test.js index.js
 	node $<
 
-test-browser: test.js index.js
+test-browser: test.js browser.js
 	$(BIN)/browserify $< --debug | $(BIN)/tape-run
 
 test-full: test.js dist/browser.js

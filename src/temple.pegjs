@@ -1,5 +1,5 @@
 import * as AST from "./ast/index.js";
-import {assign,map,includes,union} from "lodash";
+import {isEqual,assign,map,includes,union} from "lodash";
 import jsep from "jsep";
 #####
 
@@ -42,6 +42,14 @@ import jsep from "jsep";
 
 	var rawTags = union(["script","style"], Object.keys(options.tags || {}));
 	var currentRawTag;
+
+	const sectionKeys = [
+		"render",
+		"if", ["else","if"], "else", "endif",
+		"each", "endeach",
+		"with", "endwith",
+		"set"
+	];
 }
 
 start = ws nodes:(
@@ -268,13 +276,14 @@ attributeValue
 /*
 Sections
 */
-
 section "section"
-	= &(sOpen (name:jsVariable {
-		if (!includes([
-			"render", "if", "endif", "each", "endeach", "with", "endwith", "set"
-		], name)) {
-			expected("valid template section name");
+	= &(sOpen (key:(jsVariable ws)+ {
+		key = map(key, 0);
+		if (!sectionKeys.some(function(sk) {
+			sk = [].concat(sk).filter(Boolean);
+			return isEqual(key.slice(0, sk.length), sk);
+		})) {
+			expected("valid template section key");
 		}
 	})) v:(ifSection
 	/ eachSection
