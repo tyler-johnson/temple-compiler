@@ -11,8 +11,14 @@ export default class If extends Node {
 			this.push("(");
 		}
 
+
+		this.indent().indent();
+		let tabs = this.tabs();
+		this.outdent().outdent();
+
 		this.children.forEach((c, i, l) => {
 			if (this.attribute) {
+				if (i !== 0) this.push([ " :\n", tabs ]);
 				if (c.expression) this.push([ c.expression.compile(data), " ? " ]);
 				this.push([ "Temple.utils.joinValues(", c.compile(addKey(data, i.toString())).join(","), ")" ]);
 				if ((i + 1) === l.length && c.expression) this.push(" : ''");
